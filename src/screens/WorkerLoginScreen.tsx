@@ -2,11 +2,17 @@ import React,{useState} from "react";
 import { View, Text, Button, StyleSheet ,TextInput,Alert} from "react-native";
 import {collection ,query,where,getDocs} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import { useNavigation } from '@react-navigation/native';
+import {NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from "../types/navigation"; // navigation tipi buradaysa
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'WorkerHome'>;
 
 const WorkerPanelScreen = () => {
     const [tc, setTc] = useState("");   
     const [phone, setPhone] = useState("");
-    const [loading, setLoading] = useState(false);  
+    const [loading, setLoading] = useState(false); 
+    const navigation = useNavigation<NavigationProp>();   
 
    const handleWorkerLogin = async () => {
         if(tc.length!==11 || phone.length<10){
@@ -21,6 +27,7 @@ const WorkerPanelScreen = () => {
 
             if(!querySnapshot.empty) {
                 Alert.alert("Login Successful", "Welcome to the Worker Panel");
+                navigation.navigate("WorkerHome",{tc}); // Navigate to Worker Home Screen
             }else{
                 Alert.alert("Login Failed", "Invalid TC or phone number");
             }

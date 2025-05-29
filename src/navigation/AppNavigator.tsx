@@ -6,6 +6,7 @@ import AdminLoginScreen from "../screens/AdminLoginScreen";
 import AdminHomeScreen from "../screens/AdminHomeScreen";
 import AddWorkerScreen from "../screens/AddWorkerScreen";  
 import WorkerListScreen from "../screens/WorkerListScreen";   
+import WorkerHomeScreen from "../screens/WorkerHomeScreen";
 
 import { RootStackParamList } from "../types/navigation";  
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -24,6 +25,9 @@ const AppNavigator = () => {
                 <Stack.Screen name="AdminHome" component={AdminHomeScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="AddWorker" component={AddWorkerScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="ViewWorkers" component={AdminHomeScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="WorkerList" component={WorkerListScreen} options={{ headerShown: false }} />
+                {/* Add more screens as needed */}
+                <Stack.Screen name="WorkerHome" component={WorkerHomeScreen} options={{ headerShown: false }} />
                 {/* You can add more screens here as needed */}
 
             </Stack.Navigator>
