@@ -1,73 +1,171 @@
-import React,{useState}from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, TextInput, Button, StyleSheet ,Alert} from "react-native"; 
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { RootStackParamList } from "../types/navigation";
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { lightTheme, darkTheme } from "../containers/themes";
 
+const AdminLoginScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-const AdminLoginScreen = () => {    
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-    
-    const[email,setEmail] = useState("");
-    const[password,setPassword] = useState("");
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
 
-    const handleLogin=()=>{
-        if(email==="omer@com" && password==="123456"){
-            Alert.alert("Login Successful");
-           // TODO: Yönlendirme 
-           navigation.navigate("AdminHome");
-        }else{
-            Alert.alert("Login Failed", "Invalid email or password");
-        }
+  const theme = isDarkTheme ? darkTheme : lightTheme;
 
-    };
-
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Admin Login </Text>
-                <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                />
-                <Button title="Login" onPress={handleLogin} />  
-                <Button title="Worker Panel" onPress={()=>navigation.navigate("WorkerPanel")}></Button>  
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        justifyContent: "center",
-        padding: 16,
-        backgroundColor: "#f5f5f5",
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: "bold",
-        marginBottom: 24,
-        textAlign: "center",
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ccc",
-        marginBottom: 16,
-        padding: 12,
-        borderRadius:24,
+  const handleLogin = () => {
+    if (email === "omer@com" && password === "123456") {
+      Alert.alert("Giriş Başarılı");
+      navigation.navigate("AdminHome");
+    } else {
+      Alert.alert("Giriş Başarısız", "Email veya şifre yanlış");
     }
-});
+  };
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={[styles.container, theme.container]}
+    >
+      <Text style={[styles.title, theme.title]}>Admin Login</Text>
+
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={[styles.input, theme.input]}
+          placeholder="Email"
+          placeholderTextColor={isDarkTheme ? "#bbb" : "#666"}
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+        />
+      </View>
+
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={[styles.input, theme.input]}
+          placeholder="Password"
+          placeholderTextColor={isDarkTheme ? "#bbb" : "#666"}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          textContentType="password"
+        />
+      </View>
+
+      <TouchableOpacity style={[styles.loginButton, theme.loginButton]} onPress={handleLogin}>
+        <Text style={[styles.loginButtonText, theme.loginButtonText]}>Giriş Yap</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.workerPanelButton, theme.workerPanelButton]}
+        onPress={() => navigation.navigate("WorkerPanel")}
+      >
+        <Text style={[styles.workerPanelButtonText, theme.workerPanelButtonText]}>
+          Worker Panel
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.themeToggleButton, isDarkTheme ? styles.themeDark : styles.themeLight]}
+        onPress={toggleTheme}
+      >
+        <Text style={styles.themeToggleText}>
+          {isDarkTheme ? "Açık Tema Geç" : "Karanlık Tema Geç"}
+        </Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
+  );
+};
 
 export default AdminLoginScreen;
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 30,
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "700",
+    marginBottom: 40,
+    textAlign: "center",
+  },
+  inputWrapper: {
+    marginBottom: 20,
+  },
+  input: {
+    height: 50,
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  loginButton: {
+    height: 50,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  loginButtonText: {
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  workerPanelButton: {
+    height: 45,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1.5,
+    marginBottom: 30,
+  },
+  workerPanelButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  themeToggleButton: {
+    alignSelf: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 20,
+  },
+  themeToggleText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+  },
+
+  themeLight: {
+    backgroundColor: "#333",
+  },
+  themeDark: {
+    backgroundColor: "#bbb",
+  },
+});

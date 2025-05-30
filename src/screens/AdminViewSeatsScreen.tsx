@@ -44,6 +44,8 @@ const AdminViewSeatsScreen = () =>{
     const full =seats.filter((s) => s.assignedTo !=="").length;
     const empty = total-full;
 
+    
+
     return(
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>Servis Koltuk Durumu</Text>
