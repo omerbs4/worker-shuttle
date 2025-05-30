@@ -37,7 +37,7 @@ const WorkerHomeScreen = () => {
       }));
       setSeats(seatsData);
     } catch (error) {
-      console.error("Koltuklar alınırken hata:", error);
+      console.error("Koltuklar alinirken hata:", error);
       Alert.alert("Hata", "Koltuklar yüklenemedi.");
     } finally {
       setLoading(false);
@@ -49,8 +49,37 @@ const WorkerHomeScreen = () => {
   }, []);
 
   const handleSeatPress = async (seatId: string, assignedTo: string) => {
-    if (assignedTo !== "") {
+    if (assignedTo !== "" && assignedTo !== workerTC) {
       Alert.alert("Dolu Koltuk", "Bu koltuk zaten alınmış.");
+      return;
+    }
+
+    if(assignedTo===workerTC){
+      Alert.alert(
+        "Koltuk İptali",
+        "Bu koltuğu iptal etmek istiyor musunuz?",
+        [
+          {
+            text:"Hayir",
+            style:"cancel"
+          },
+          {
+            text:"Evet",
+            onPress: async () =>{
+              try{
+                await updateDoc(doc(db,"seats",seatId),{
+                  assignedTo:"",
+                });
+                Alert.alert("İptal Edildi!","Koltuk İptal Edildi!");
+                fetchSeats();
+              }catch(e){
+                console.error("İptal Hatasi:",e);
+                Alert.alert("Hata","İptal işlemi başarisiz!");
+              }
+            },
+          },
+        ]
+      );
       return;
     }
 
@@ -89,7 +118,11 @@ const WorkerHomeScreen = () => {
             key={seat.id}
             style={[
               styles.seatButton,
-              seat.assignedTo !== "" ? styles.taken : styles.available,
+              seat.assignedTo===workerTC
+              ?styles.mySeat
+              : seat.assignedTo!==""
+              ?styles.taken
+              :styles.available,
             ]}
             onPress={() => handleSeatPress(seat.id, seat.assignedTo)}
           >
@@ -140,4 +173,7 @@ const styles = StyleSheet.create({
   taken: {
     backgroundColor: "red",
   },
+  mySeat:{
+    backgroundColor:"blue"
+  }
 });

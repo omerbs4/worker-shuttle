@@ -10,6 +10,9 @@ import AddWorkerScreen from "./src/screens/AddWorkerScreen";
 import WorkerListScreen from "./src/screens/WorkerListScreen";
 import WorkerLoginScreen from "./src/screens/WorkerLoginScreen";
 import WorkerHomeScreen from "./src/screens/WorkerHomeScreen";
+import AdminViewSeatsScreen from "./src/screens/AdminViewSeatsScreen";
+
+
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -26,6 +29,8 @@ const App = () => {
         <Stack.Screen name="ViewWorkers" component={WorkerListScreen} />
         <Stack.Screen name="WorkerPanel" component={WorkerLoginScreen} />
         <Stack.Screen name="WorkerHome" component={WorkerHomeScreen} />
+        <Stack.Screen name="AdminViewSeats" component={AdminViewSeatsScreen}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
   )

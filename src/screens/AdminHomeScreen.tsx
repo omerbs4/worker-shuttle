@@ -1,5 +1,5 @@
 import React from "react";
-import { View,Text,Button,StyleSheet } from "react-native";
+import { View,Text,Button,StyleSheet, TouchableOpacity } from "react-native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types/navigation";
 import { useNavigation } from '@react-navigation/native';
@@ -22,6 +22,10 @@ const AdminHomeScreen =() =>{
             <Button 
             title="View Workers"
             onPress={() => navigation.navigate('ViewWorkers')}
+            />
+            <Button
+            title="Koltuklari Göster"
+            onPress={()=>navigation.navigate('AdminViewSeats')}
             />
         </View>
     );
