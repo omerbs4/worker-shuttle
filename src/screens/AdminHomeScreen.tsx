@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTheme } from "../contexts/ThemeContext";
 import { styles } from "../styles/ui";
 
+
 type AdminHomeScreenNavigationProp = NativeStackNavigationProp<
 RootStackParamList,
 'AdminHome'
@@ -35,6 +36,7 @@ const AdminHomeScreen =() =>{
                 onPress={()=>navigation.navigate('AdminViewSeats')}>
                     <Text style={[styles.loginButtonText,theme.loginButtonText]}>Koltuk Bilgisi</Text>
             </TouchableOpacity>
+         
             
             
 

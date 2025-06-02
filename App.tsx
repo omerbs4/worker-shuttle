@@ -14,7 +14,8 @@ import AdminViewSeatsScreen from "./src/screens/AdminViewSeatsScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 
 import { ThemeProvider } from "./src/contexts/ThemeContext";
-import { Button } from "react-native";
+import { Button, TouchableOpacity } from "react-native";
+import {Ionicons} from '@expo/vector-icons'
 
 
 
@@ -31,11 +32,19 @@ const App = () => {
           initialRouteName="AdminLogin"
           screenOptions={({ navigation }) => ({
             headerRight: () => (
-              <Button
-                title="Ayarlar"
-                onPress={() => navigation.navigate("Settings")}
-              />
-            )
+              <TouchableOpacity 
+              onPress={()=> navigation.navigate('Settings')}
+              style={{
+                height:'200%',
+                justifyContent:'center',
+                alignItems:'center',
+                marginRight:-10,
+              }}
+              >
+                <Ionicons name="settings-outline" size={24} color={'black'}/>
+
+              </TouchableOpacity>
+            ),
           })}
         >
         <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
@@ -45,7 +54,17 @@ const App = () => {
         <Stack.Screen name="WorkerPanel" component={WorkerLoginScreen} />
         <Stack.Screen name="WorkerHome" component={WorkerHomeScreen} />
         <Stack.Screen name="AdminViewSeats" component={AdminViewSeatsScreen}/>
-        <Stack.Screen name="Settings" component={SettingsScreen}/>
+        <Stack.Screen name="Settings" component={SettingsScreen}
+        options={({ navigation }) => ({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+          style={{ marginRight: -10 }}
+        >
+          <Ionicons name="settings" size={24} color="black" />
+        </TouchableOpacity>
+      )
+    })}/>
       </Stack.Navigator>
     </NavigationContainer>
     </ThemeProvider>
