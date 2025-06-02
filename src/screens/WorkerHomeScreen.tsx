@@ -12,7 +12,7 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { RootStackParamList } from "../types/navigation";
-
+import { useTheme } from "../contexts/ThemeContext";
 type WorkerHomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "WorkerHome"
@@ -21,6 +21,8 @@ type WorkerHomeScreenNavigationProp = NativeStackNavigationProp<
 type WorkerHomeRouteProp = RouteProp<RootStackParamList, "WorkerHome">;
 
 const WorkerHomeScreen = () => {
+      const {theme} = useTheme();
+  
   const navigation = useNavigation<WorkerHomeScreenNavigationProp>();
   const route = useRoute<WorkerHomeRouteProp>();
   const workerTC = route.params.tc;
@@ -110,7 +112,7 @@ const WorkerHomeScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,theme.container]}>
       <Text style={styles.title}>Worker Manager</Text>
       <View style={styles.grid}>
         {seats.map((seat, index) => (

@@ -5,10 +5,12 @@ import { db } from "../firebase/firebaseConfig";
 import { useNavigation } from '@react-navigation/native';
 import {NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types/navigation"; // navigation tipi buradaysa
-
+import { useTheme } from "../contexts/ThemeContext";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'WorkerHome'>;
 
 const WorkerPanelScreen = () => {
+        const {theme} = useTheme();
+    
     const [tc, setTc] = useState("");   
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false); 
@@ -40,7 +42,7 @@ const WorkerPanelScreen = () => {
             }
         };
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,theme.container]}>
             <Text style={styles.title}>Worker Panel</Text>
             <TextInput
                 style={styles.input}

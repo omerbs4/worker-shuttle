@@ -2,8 +2,11 @@ import React,{useState,useEffect} from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity ,ActivityIndicator,Alert} from "react-native";
 import { collection, getDocs ,deleteDoc,doc} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import { useTheme } from "../contexts/ThemeContext";
 
 const WorkerListScreen = () => {
+        const {theme} = useTheme();
+    
     const [workers, setWorkers] = useState<any[]>([]);
     const [loading,setLoading]=useState(true);
 
@@ -56,7 +59,7 @@ const WorkerListScreen = () => {
     if(loading) return <ActivityIndicator size="large" color="#0000ff" style={{marginTop:50}} />;
 
     return(
-        <View style={styles.container}>
+        <View style={[styles.container,theme.container]}>
             <Text style={styles.title}>Worker List</Text>
             <FlatList
                 data={workers}

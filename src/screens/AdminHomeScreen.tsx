@@ -3,6 +3,7 @@ import { View,Text,Button,StyleSheet, TouchableOpacity } from "react-native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types/navigation";
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from "../contexts/ThemeContext";
 
 type AdminHomeScreenNavigationProp = NativeStackNavigationProp<
 RootStackParamList,
@@ -10,10 +11,12 @@ RootStackParamList,
 >;
 
 const AdminHomeScreen =() =>{
+    const {theme} = useTheme();
+    
     const navigation = useNavigation<AdminHomeScreenNavigationProp>();
 
     return(
-        <View style={styles.container}>
+        <View style={[styles.container,theme.container]}>
             <Text style={styles.title}>Admin Manager</Text>
             <Button
                 title="Add Worker"

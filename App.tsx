@@ -11,7 +11,10 @@ import WorkerListScreen from "./src/screens/WorkerListScreen";
 import WorkerLoginScreen from "./src/screens/WorkerLoginScreen";
 import WorkerHomeScreen from "./src/screens/WorkerHomeScreen";
 import AdminViewSeatsScreen from "./src/screens/AdminViewSeatsScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
 
+import { ThemeProvider } from "./src/contexts/ThemeContext";
+import { Button } from "react-native";
 
 
 
@@ -21,8 +24,19 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
+    <ThemeProvider>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AdminLogin">
+       <Stack.Navigator
+          initialRouteName="AdminLogin"
+          screenOptions={({ navigation }) => ({
+            headerRight: () => (
+              <Button
+                title="Ayarlar"
+                onPress={() => navigation.navigate("Settings")}
+              />
+            )
+          })}
+        >
         <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="AddWorker" component={AddWorkerScreen} />
@@ -30,9 +44,10 @@ const App = () => {
         <Stack.Screen name="WorkerPanel" component={WorkerLoginScreen} />
         <Stack.Screen name="WorkerHome" component={WorkerHomeScreen} />
         <Stack.Screen name="AdminViewSeats" component={AdminViewSeatsScreen}/>
-        
+        <Stack.Screen name="Settings" component={SettingsScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </ThemeProvider>
   )
 }
 

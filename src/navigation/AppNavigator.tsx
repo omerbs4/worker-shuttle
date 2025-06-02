@@ -8,6 +8,8 @@ import AddWorkerScreen from "../screens/AddWorkerScreen";
 import WorkerListScreen from "../screens/WorkerListScreen";   
 import WorkerHomeScreen from "../screens/WorkerHomeScreen";
 import AdminViewSeatsScreen from "../screens/AdminViewSeatsScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+
 
 
 import { RootStackParamList } from "../types/navigation";  
@@ -31,7 +33,10 @@ const AppNavigator = () => {
                 {/* Add more screens as needed */}
                 <Stack.Screen name="WorkerHome" component={WorkerHomeScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="AdminViewSeats" component={AdminViewSeatsScreen} options={{ headerShown: false }} />
-                {/* You can add more screens here as needed */}
+                {/* You can add more screens here as needed */}SettingsScreen
+                <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ headerShown: false }} />
+
+                
 
             </Stack.Navigator>
         </NavigationContainer>

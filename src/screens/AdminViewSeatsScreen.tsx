@@ -7,8 +7,11 @@ import { View
  } from "react-native";
 import {collection,getDocs} from 'firebase/firestore';
 import { db } from "../firebase/firebaseConfig";
+import { useTheme } from "../contexts/ThemeContext";
 
 const AdminViewSeatsScreen = () =>{
+        const {theme} = useTheme();
+    
     const [seats,setSeats] = useState<any[]>([]);
     const[loading,setLoading] =useState(true);
 
@@ -47,7 +50,7 @@ const AdminViewSeatsScreen = () =>{
     
 
     return(
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={[styles.container,theme.container]}>
             <Text style={styles.title}>Servis Koltuk Durumu</Text>
             <Text style={styles.summary}>
                 Toplam Koltuk: {total} | Dolu: {full} | Boş: {empty}

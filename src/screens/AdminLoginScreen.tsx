@@ -1,31 +1,24 @@
-import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import {
-  View,
+import React, { useState} from "react";
+import { Button,
+  KeyboardAvoidingView,
+  Platform, StyleSheet, 
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import { RootStackParamList } from "../types/navigation";
+  View,
+  Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { lightTheme, darkTheme } from "../containers/themes";
+import { RootStackParamList } from "../types/navigation";
+import { useTheme } from "../contexts/ThemeContext";
 
 const AdminLoginScreen = () => {
+  const { theme, isDark, toggleTheme } = useTheme(); // ✅ Global theme
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
-
-  const theme = isDarkTheme ? darkTheme : lightTheme;
 
   const handleLogin = () => {
     if (email === "omer@com" && password === "123456") {
@@ -47,7 +40,7 @@ const AdminLoginScreen = () => {
         <TextInput
           style={[styles.input, theme.input]}
           placeholder="Email"
-          placeholderTextColor={isDarkTheme ? "#bbb" : "#666"}
+          placeholderTextColor={isDark ? "#bbb" : "#666"}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -60,7 +53,7 @@ const AdminLoginScreen = () => {
         <TextInput
           style={[styles.input, theme.input]}
           placeholder="Password"
-          placeholderTextColor={isDarkTheme ? "#bbb" : "#666"}
+          placeholderTextColor={isDark ? "#bbb" : "#666"}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -81,14 +74,7 @@ const AdminLoginScreen = () => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.themeToggleButton, isDarkTheme ? styles.themeDark : styles.themeLight]}
-        onPress={toggleTheme}
-      >
-        <Text style={styles.themeToggleText}>
-          {isDarkTheme ? "Açık Tema Geç" : "Karanlık Tema Geç"}
-        </Text>
-      </TouchableOpacity>
+      
     </KeyboardAvoidingView>
   );
 };
@@ -150,22 +136,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-  themeToggleButton: {
-    alignSelf: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    borderRadius: 20,
-  },
-  themeToggleText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#fff",
-  },
-
-  themeLight: {
-    backgroundColor: "#333",
-  },
-  themeDark: {
-    backgroundColor: "#bbb",
-  },
+  
+  
 });

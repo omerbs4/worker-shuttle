@@ -2,8 +2,10 @@ import React,{useState} from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import {collection,addDoc} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import { useTheme } from "../contexts/ThemeContext";
 
 const AddWorkerScreen = () =>{
+    const {theme} = useTheme();
     const [name, setName] = useState("");
     const [lastName,setLastName] = useState("");
     const [tc, setTc] = useState("");
@@ -35,7 +37,7 @@ const AddWorkerScreen = () =>{
 
 
     return(
-        <View style={styles.container}>
+        <View style={[styles.container,theme.container]}>
             <Text style={styles.title}>Add Worker</Text>
             <TextInput
                 style={styles.input}
