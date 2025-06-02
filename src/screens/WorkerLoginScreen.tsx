@@ -1,16 +1,18 @@
 import React,{useState} from "react";
-import { View, Text, Button, StyleSheet ,TextInput,Alert} from "react-native";
+import { View, Text, Button, StyleSheet ,TextInput,Alert,TouchableOpacity,ActivityIndicator} from "react-native";
 import {collection ,query,where,getDocs} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useNavigation } from '@react-navigation/native';
 import {NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types/navigation"; // navigation tipi buradaysa
 import { useTheme } from "../contexts/ThemeContext";
+import { styles } from "../styles/ui";
+
+
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'WorkerHome'>;
 
 const WorkerPanelScreen = () => {
-        const {theme} = useTheme();
-    
+    const {theme} = useTheme(); 
     const [tc, setTc] = useState("");   
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false); 
@@ -28,7 +30,7 @@ const WorkerPanelScreen = () => {
             const querySnapshot = await getDocs(q); 
 
             if(!querySnapshot.empty) {
-                Alert.alert("Login Successful", "Welcome to the Worker Panel");
+                Alert.alert("Login Successful", "Welcome to the Worker Login");
                 navigation.navigate("WorkerHome",{tc}); // Navigate to Worker Home Screen
             }else{
                 Alert.alert("Login Failed", "Invalid TC or phone number");
@@ -43,7 +45,7 @@ const WorkerPanelScreen = () => {
         };
     return (
         <View style={[styles.container,theme.container]}>
-            <Text style={styles.title}>Worker Panel</Text>
+            <Text style={styles.title}>Worker Login</Text>
             <TextInput
                 style={styles.input}
                 placeholder="TC No"
@@ -59,12 +61,23 @@ const WorkerPanelScreen = () => {
                 onChangeText={setPhone}
                 keyboardType="phone-pad"
             />
-            <Button title="Login" onPress={handleWorkerLogin} />
+            <TouchableOpacity
+        style={[styles.loginButton, theme.loginButton, loading && { opacity: 0.6 }]}
+        onPress={handleWorkerLogin}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color={theme.loginButtonText?.color || "#fff"} />
+        ) : (
+          <Text style={[styles.loginButtonText, theme.loginButtonText]}>Giriş Yap</Text>
+        )}
+      </TouchableOpacity>
+            
         </View>
     );
 };
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
   input: {
@@ -74,7 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 16,
   },
-});
+});*/
 export default WorkerPanelScreen;
 
 

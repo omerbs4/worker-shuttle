@@ -1,8 +1,10 @@
 import React,{useState} from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Alert ,TouchableOpacity} from "react-native";
 import {collection,addDoc} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useTheme } from "../contexts/ThemeContext";
+import { defaultStyles } from "../styles/defaultStyles";
+import { styles } from "../styles/ui";
 
 const AddWorkerScreen = () =>{
     const {theme} = useTheme();
@@ -10,6 +12,7 @@ const AddWorkerScreen = () =>{
     const [lastName,setLastName] = useState("");
     const [tc, setTc] = useState("");
     const [phone,setPhone] = useState("");
+    const [loading,setLoading] = useState(false);
 
     const handleAddWorker = async ()=>{
        if(!tc || !name || !lastName || !phone){
@@ -37,43 +40,28 @@ const AddWorkerScreen = () =>{
 
 
     return(
-        <View style={[styles.container,theme.container]}>
-            <Text style={styles.title}>Add Worker</Text>
+        <View style={defaultStyles.container}>
+            <Text style={defaultStyles.title}>Add Worker</Text>
             <TextInput
-                style={styles.input}
+                style={defaultStyles.input}
                 placeholder="tc :"
                 value={tc}
                 onChangeText={setTc}
                 keyboardType="number-pad"
                 />
-            <TextInput style={styles.input} placeholder="Ad" value={name} onChangeText={setName} />
-            <TextInput style={styles.input} placeholder="Soyad" value={lastName} onChangeText={setLastName} />
-            <TextInput style={styles.input} placeholder="Telefon" value={phone} onChangeText={setPhone} />
-            <Button title="Add" onPress={handleAddWorker}></Button>
+            <TextInput style={defaultStyles.input} placeholder="Ad" value={name} onChangeText={setName} />
+            <TextInput style={defaultStyles.input} placeholder="Soyad" value={lastName} onChangeText={setLastName} />
+            <TextInput style={defaultStyles.input} placeholder="Telefon" value={phone} onChangeText={setPhone} />
+            <TouchableOpacity 
+                style={[styles.loginButton,theme.loginButton, loading && {opacity:0.6}]}
+                onPress={handleAddWorker}>
+                <Text style={[styles.loginButtonText,theme.loginButtonText]}>Ekle</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 export default AddWorkerScreen;
 
-const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        justifyContent: "center",
-        padding:20
-    },
-    title:{
-        fontSize: 24,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ccc",
-        marginBottom: 16,
-        padding: 12,
-        borderRadius:12,
-    },
-});
 
 
     

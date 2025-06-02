@@ -1,9 +1,10 @@
-import React from "react";
-import { View,Text,Button,StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View,Text,Button,StyleSheet, TouchableOpacity ,ActivityIndicator} from "react-native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types/navigation";
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from "../contexts/ThemeContext";
+import { styles } from "../styles/ui";
 
 type AdminHomeScreenNavigationProp = NativeStackNavigationProp<
 RootStackParamList,
@@ -12,30 +13,39 @@ RootStackParamList,
 
 const AdminHomeScreen =() =>{
     const {theme} = useTheme();
+    const [loading, setLoading] = useState(false);
     
     const navigation = useNavigation<AdminHomeScreenNavigationProp>();
 
     return(
         <View style={[styles.container,theme.container]}>
-            <Text style={styles.title}>Admin Manager</Text>
-            <Button
-                title="Add Worker"
-                onPress={() => navigation.navigate('AddWorker')}
-            />
-            <Button 
-            title="View Workers"
-            onPress={() => navigation.navigate('ViewWorkers')}
-            />
-            <Button
-            title="Koltuklari Göster"
-            onPress={()=>navigation.navigate('AdminViewSeats')}
-            />
+            <Text style={styles.title}>Admin Manager</Text>  
+            <TouchableOpacity
+                style={[styles.loginButton,theme.loginButton,loading && {opacity:0.6}]}
+                onPress={()=>navigation.navigate('ViewWorkers')}>
+                    <Text style={[styles.loginButtonText,theme.loginButtonText]}>İşçileri Göster</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.loginButton,theme.loginButton,loading && {opacity:0.6}]}
+                onPress={()=>navigation.navigate('AddWorker')}>
+                    <Text style={[styles.loginButtonText,theme.loginButtonText]}>İşçi Ekle</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.loginButton,theme.loginButton,loading && {opacity:0.6}]}
+                onPress={()=>navigation.navigate('AdminViewSeats')}>
+                    <Text style={[styles.loginButtonText,theme.loginButtonText]}>Koltuk Bilgisi</Text>
+            </TouchableOpacity>
+            
+            
+
+            
+            
         </View>
     );
 };
 
 export default AdminHomeScreen;
-
+/*
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -48,4 +58,4 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginBottom:30
     },
-});
+});*/
